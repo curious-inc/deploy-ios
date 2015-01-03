@@ -1,0 +1,12 @@
+#!/bin/bash
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd $DIR
+cd ./builds/$1/ 
+if [ -d ./$2 ]; then
+   echo "Version 'builds/$1/$2' exists. Making current."
+   rm ./current
+   ln -s ./$2 ./current
+   echo "Complete."
+else
+   echo "Version 'builds/$1/$2' does not exist. Can not create link."
+fi
