@@ -10,8 +10,8 @@ You can have one "default" build, the current version of which is available at "
 
 The server serves three URLs for each version:
 - `/<build>/<version>/`, hosts a simple html page where you can install the app. Visit this from your phone.
-- `/<build>/<version>install.plist`, is the manifest needed by the phone to install the app.
-- `/<build>/<version>install.ipa`, is the app archive for this version, you upload this to the server.
+- `/<build>/<version>/install.plist`, is the manifest needed by the phone to install the app.
+- `/<build>/<version>/install.ipa`, is the app archive for this version, you upload this to the server.
 
 In the root of the project directory there is a folder called `builds` which contains a directory for each of your builds.
 These folders are where you put your .ipa files for serving. 
