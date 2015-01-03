@@ -1,0 +1,28 @@
+{
+    "name":"deploy-ios",
+    "version":"0.0.1",
+    "description": "iOS Deployment Server",
+    "private": true,
+    "author": {
+        "name": "Kendrick Taylor",
+        "email": "kendick@suoiruc.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/curious-inc/ios-deploy.git"
+    },
+    "directories": {
+        "lib": "./lib"
+    },
+    "engines": {
+        "node": "0.10.x",
+        "npm": "1"
+    },
+    "devDependencies": {
+    },
+    "dependencies": {
+        "dry-underscore" : ""
+        ,"express": ""
+        ,"basic-auth": ""
+    }
+}
