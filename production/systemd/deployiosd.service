@@ -1,0 +1,9 @@
+[Unit]
+Description=iOS Deployment Server
+
+[Service]
+Restart=always
+ExecStart=/home/centos/deploy-ios/run
+
+[Install]
+WantedBy=multi-user.target
