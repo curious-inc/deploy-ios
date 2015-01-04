@@ -147,11 +147,13 @@ function add_build_routes(app, build_name, build_info){
     }
 
     app.get('/' + build_name + '/:version/install.plist', handle_version, secure_versions, function(req, res, next){
+        _.log.error(req.url);
         var plist = _.render("install.plist", template_hash(req.version, build_name, build_info, req.is_current_version));
         res.end(plist);
     });
 
     app.get('/' + build_name + '/:version/install.ipa', /* handle_version, secure_versions,*/ function(req, res, next){
+        _.log.error(req.url);
         builds_server.serve(req, res, function(err, res){
             if(!err){ return; }
             _.log.error("Error serving " + req.url + " - " + err.message);
@@ -164,6 +166,7 @@ function add_build_routes(app, build_name, build_info){
     });
 
     app.get('/' + build_name + '/:version/', handle_version, secure_versions, function(req, res, next){
+        _.log.error(req.url);
         var html = _.render("install.html", template_hash(req.version, build_name, build_info, req.is_current_version));
         res.end(html);
     });
