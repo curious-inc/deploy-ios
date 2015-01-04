@@ -151,8 +151,8 @@ function add_build_routes(app, build_name, build_info){
         res.end(plist);
     });
 
-    app.get('/' + build_name + '/:version/install.ipa', handle_version, secure_versions, function(req, res, next){
-        builds_server.serveFile(req.url, 200, null, req, res);
+    app.get('/' + build_name + '/:version/install.ipa', /* handle_version, secure_versions,*/ function(req, res, next){
+        builds_server.serveFile(req.url, 200, {}, req, res);
         // res.sendFile(ipa_path(build_name, req.version));
     });
 
