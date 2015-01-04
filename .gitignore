@@ -3,4 +3,5 @@ ignore/
 config.js
 builds/
 keys/
+npm-debug.log
 

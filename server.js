@@ -10,8 +10,6 @@ var root_url = _.url.fun("https://" + config.host);
 var builds = config.builds;
 var build_path = _.path.fun(root_path(), "builds");
 
-var static = require('node-static');
-var builds_server = new static.Server(build_path());
 var send = require('send');
  
 
@@ -121,7 +119,6 @@ function add_build_routes(app, build_name, build_info){
     }
 
     function handle_version(req, res, next){
-        _.log.error("handle_version");
         var version = req.version_override || req.param("version");
 
         check_version(build_name, version, _.plumb(function(exists){
@@ -144,7 +141,6 @@ function add_build_routes(app, build_name, build_info){
     }
 
     function secure_versions(req, res, next){
-        _.log.error("secure_versions");
         if(req.is_current_version){ return next(); }
         else if(config.auth.secure === false){ return next(); }
         else{ return basic_auth(config.auth.username, config.auth.password)(req, res, next); }
@@ -156,21 +152,9 @@ function add_build_routes(app, build_name, build_info){
         res.end(plist);
     });
 
-    app.get('/' + build_name + '/:version/install.ipa', /* handle_version, secure_versions,*/ function(req, res, next){
+    app.get('/' + build_name + '/:version/install.ipa', handle_version, secure_versions, function(req, res, next){
         _.log.error(req.url);
         send(req, req.url, { root: build_path() } ).pipe(res);
-        /*
-        builds_server.serve(req, res, function(err, res){
-            _.log.error("inside serve error");
-            if(!err){ return; }
-            _.log.error("Error serving " + req.url + " - " + err.message);
-            _.log.error(err);
-
-            next(err);
-        });
-        */
-        // builds_server.serveFile(req.url, 200, {}, req, res);
-        // res.sendFile(ipa_path(build_name, req.version));
     });
 
     app.get('/' + build_name + '/:version/', handle_version, secure_versions, function(req, res, next){

@@ -24,7 +24,6 @@
         "dry-underscore" : ""
         ,"express": ""
         ,"basic-auth": ""
-        ,"node-static": ""
         ,"send": ""
     }
 }
