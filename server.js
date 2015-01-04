@@ -1,7 +1,6 @@
 
 var fs = require('fs');
 var _ = require('dry-underscore');
-
 var config = require("./config.js");
 
 _.log.level(config.log_level || "info");
@@ -10,6 +9,9 @@ var root_path = _.path.fun(_.path.normalize(__dirname));
 var root_url = _.url.fun("https://" + config.host);
 var builds = config.builds;
 var build_path = _.path.fun(root_path(), "builds");
+
+var static = require('node-static');
+var builds_server = new static.Server(build_path());
 
 function ipa_path(build_name, version){
     return build_path(build_name, version, "install.ipa");
@@ -150,7 +152,8 @@ function add_build_routes(app, build_name, build_info){
     });
 
     app.get('/' + build_name + '/:version/install.ipa', handle_version, secure_versions, function(req, res, next){
-        res.sendFile(ipa_path(build_name, req.version));
+        builds_server.serveFile(req.url, 200, {}, req, res);
+        // res.sendFile(ipa_path(build_name, req.version));
     });
 
     app.get('/' + build_name + '/:version/', handle_version, secure_versions, function(req, res, next){
