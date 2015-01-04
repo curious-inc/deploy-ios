@@ -12,6 +12,8 @@ var build_path = _.path.fun(root_path(), "builds");
 
 var static = require('node-static');
 var builds_server = new static.Server(build_path());
+var send = require('send');
+ 
 
 function ipa_path(build_name, version){
     return build_path(build_name, version, "install.ipa");
@@ -156,6 +158,8 @@ function add_build_routes(app, build_name, build_info){
 
     app.get('/' + build_name + '/:version/install.ipa', /* handle_version, secure_versions,*/ function(req, res, next){
         _.log.error(req.url);
+        send(req, req.url, { root: build_path() } ).pipe(res);
+        /*
         builds_server.serve(req, res, function(err, res){
             _.log.error("inside serve error");
             if(!err){ return; }
@@ -164,6 +168,7 @@ function add_build_routes(app, build_name, build_info){
 
             next(err);
         });
+        */
         // builds_server.serveFile(req.url, 200, {}, req, res);
         // res.sendFile(ipa_path(build_name, req.version));
     });
