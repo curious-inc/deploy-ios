@@ -141,8 +141,8 @@ function add_build_routes(app, build_name, build_info){
     }
 
     function secure_versions(req, res, next){
-        if(req.is_current_version){ return next(); }
-        else if(config.auth.secure === false){ return next(); }
+        if(req.is_current_version && build_info.secure_current === false){ return next(); }
+        else if(build_info.secure === false){ return next(); }
         else{ return basic_auth(config.auth.username, config.auth.password)(req, res, next); }
     }
 
@@ -159,6 +159,11 @@ function add_build_routes(app, build_name, build_info){
 
     app.get('/' + build_name + '/:version/', handle_version, secure_versions, function(req, res, next){
         _.log.error(req.url);
+        var html = _.render("install.html", template_hash(req.version, build_name, build_info, req.is_current_version));
+        res.end(html);
+    });
+
+    app.get('/' + build_name, function(req, res, next){ req.version_override = "current"; next(); }, handle_version, secure_versions, function(req, res, next){
         var html = _.render("install.html", template_hash(req.version, build_name, build_info, req.is_current_version));
         res.end(html);
     });
