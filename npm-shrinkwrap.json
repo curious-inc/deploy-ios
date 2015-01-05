@@ -8,9 +8,8 @@
       "resolved": "https://registry.npmjs.org/basic-auth/-/basic-auth-1.0.0.tgz"
     },
     "dry-underscore": {
-      "version": "0.10.0",
-      "from": "dry-underscore@",
-      "resolved": "https://registry.npmjs.org/dry-underscore/-/dry-underscore-0.10.0.tgz",
+      "version": "0.10.3",
+      "from": "dry-underscore@0.10.3",
       "dependencies": {
         "tamejs": {
           "version": "0.4.14",

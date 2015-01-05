@@ -54,45 +54,6 @@ function basic_auth(username, password){
    });
 }
 
-function ssl_parse_ca(bundle_path){
-    var ca = [];
-
-    try{ var chain = fs.readFileSync(bundle_path, 'utf8'); }
-    catch(e){ 
-        _.stderr("Not using a certificate chain. Can't read ca_bundle file: " + bundle_path + ".");
-        return([]);
-    }
-
-    chain = chain.split("\n");
-
-    var cert = [];
-    var line = null;
-    var _len = 0;
-
-    for (var _i = 0, _len = chain.length; _i < _len; _i++) {
-        line = chain[_i];
-        if (!(line.length !== 0)) {
-            continue;
-        }
-        cert.push(line);
-        if (line.match(/-END CERTIFICATE-/)) {
-            ca.push(cert.join("\n"));
-            cert = [];
-        }
-    }
-
-    return(ca);
-}
-
-function ssl_options(key_path, cert_path, bundle_path){
-    return({
-        key : fs.readFileSync(key_path, 'utf8'),
-        cert : fs.readFileSync(cert_path, 'utf8'),
-        ca : ssl_parse_ca(bundle_path)
-    });
-}
- 
-
 function add_build_routes(app, build_name, build_info){
 
     function template_hash(version, build_name, build_info, current){
@@ -197,7 +158,7 @@ function run_server(){
     var express = require('express');
     var app = express();
 
-    var ssl_info = ssl_options(config.ssl.key, config.ssl.cert, config.ssl.ca_bundle);
+    var ssl_info = _.tls.hash(config.ssl.key, config.ssl.cert, config.ssl.ca_bundle);
 
     load_routes(app);
 
